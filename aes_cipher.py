@@ -83,14 +83,14 @@ class CreateAES:
     # CFB method
     def encryption_cfb(self, text: bytes) -> bytes: # CFB
         init_vector = os.urandom(16)
-        cipher = AES.new(self.key, AES.MODE_CFB, init_vector)
+        cipher = AES.new(self.key, AES.MODE_CFB, init_vector, segment_size=128)
         encrypted_data = cipher.encrypt(text)
         return init_vector + encrypted_data
 
     def decryption_cfb(self, ciphertext: bytes) -> bytes:
         cut_init_vector = ciphertext[:16]
         new_ciphertext = ciphertext[16:]
-        cipher = AES.new(self.key, AES.MODE_CFB, cut_init_vector)
+        cipher = AES.new(self.key, AES.MODE_CFB, cut_init_vector, segment_size=128)
         return cipher.decrypt(new_ciphertext)
 
 
